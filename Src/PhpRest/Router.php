@@ -7,9 +7,9 @@ use Src\Support\UrlParser;
 class Router{
   use UrlParser;
 
-  private $route;
-  private $namespace;
-  private $path;
+  protected $routes;
+  protected $namespace;
+  protected $path;
 
   public function __construct(String $namespace = '') {
     $this->namespace = $namespace;
@@ -20,15 +20,15 @@ class Router{
    * @return Object
    */
   public function getHandler()
-  {
+  {    
     $url = $this->parseUrl();
     $index = $url[0];
 
-    if(!array_key_exists($index, $this->route)){
+    if(!array_key_exists($index, $this->routes)){
       return null;
     }
 
-    $handler = $this->namespace.'\\'.$this->route[$index];
+    $handler = $this->namespace.'\\'.$this->routes[$index];
     if(!class_exists($handler)){
       return null; 
     }
@@ -42,9 +42,9 @@ class Router{
    * Routes configuration
    */
   public function setRoute(String $url, String $handler){
-    $url = ($url == '/')? '' : $url; 
-    $this->route[$url] = $handler;
-    return $this->route;
+    $url = preg_replace('/[^a-zA-Z0-9]/', '', $url);
+    $this->routes[$url] = $handler;
+    return $this->routes;
   }
 
   public function setPath(String $siteUrl){

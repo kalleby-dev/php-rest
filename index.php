@@ -2,21 +2,29 @@
 /* TEST FILE */
 require_once('./vendor/autoload.php');
 
-use Src\PhpRest\Router;
+use Src\PhpRest\Rest;
+$rest = new Rest("Src\Exemple");
+$rest->setRoute('/', "Test");
+$rest->setRoute('/aluno', "Aluno");
+
+
+$rest->dispatch();
+/* use Src\PhpRest\Router;
 
 $router = new Router("Src\PhpRest");
 $routes = $router->setRoute('/', "Rest");
+ */
 
+/* $test = $router->getHandler();
+$test->getBody(); */
+/* echo "<br>";
 
-$test = $router->getHandler();
-echo "<br>";
-//var_dump($test);
 
 echo "<br>";
 var_dump($routes);
 
 echo "<br>url: ______";
-var_dump($_GET['url']); //Retorna o path da rota
+var_dump($_GET['url']); */ //Retorna o path da rota
  
 
 /* echo '<br>url: ______';

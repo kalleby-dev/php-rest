@@ -6,18 +6,33 @@ class Rest extends Router{
   private $method;
   private $param = [];
 
-  public function __construct(){
+  private $body;
+
+  public function __construct(String $namespace){
+    parent::__construct($namespace);
+  }
+
+  public function dispatch(){
+    if(empty($this->routes)) return false;
+
     $this->addHandler();
+    var_dump($this->handler);
+    return true;
   }
 
-  public function addHandler()
-  {
+  public function addHandler(){
     $this->handler = $this->getHandler();
+    return $this;
   }
 
-  public function addMethod()
-  {
-    
+  public function setBody(){
+    $this->body = file_get_contents('php://input');
+    return $this;
+  }
+
+  public function getBody(){
+    echo json_encode($this->body);
+    return $this->body;
   }
 
   public function addParam()
